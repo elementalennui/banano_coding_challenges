@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Banano Challenge 3</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/ui-lightness/jquery-ui.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="static/css/app.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Buttons -->
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
+    <script src="static/js/app.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="index.html"><img src="static\assets\banano.png" height="50px" width="50px"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div style="display: inline-block;margin-left: 10px;">
+            <select class="form-control" id="themeSelect">
+                <option value="yeti" selected>Light</option>
+                <option value="minty">Minty</option>
+                <option value="lumen">Lumen</option>
+                <option value="pulse">Purple</option>
+                <option value="zephyr">Breezy</option>
+                <option value="lux">Classy</option>
+                <option value="spacelab">Sleek</option>
+                <option value="sketchy">???</option>
+            </select>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarColor03">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="https://www.banano.cc" target="_blank">Banano Home</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 jumbotron text-center">
+                <h1>Banano Coding Challenge 3</h1>
+                <h4>Guess the Banano Price! Here's how to play:</h4>
+                <p>Choose a date and guess the price of Banano on that day! We'll also bring back information about how Banano traded in the week up to the date you selected.</p>
+                <label class="col-form-label" for="currency">Currency:</label>
+                <select id="currency">
+                    <option value="aud">AUD</option>
+                    <option value="cad">CAD</option>
+                    <option value="eur">EUR</option>
+                    <option value="gbp">GBP</option>
+                    <option value="sgd">SGD</option>
+                    <option value="usd" selected>USD</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <label class="col-form-label" for="datepicker">Choose a Date!</label>
+                    <input type="text" class="form-control" id="datepicker">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <label class="col-form-label" for="priceGuess">Guess the Price!</label>
+                    <input type="number" class="form-control" step="0.0001" min="0" value="0.0060" id="priceGuess">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <button type="button" id="btn_guess" class="btn btn-primary">Guess!</button>
+            </div>
+            <div class="col-md-8"></div>
+        </div>
+        <hr style="color:lightgray; border-width: 3px; display: none;" class="bar_hide">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="results" style="display:none;">
+                    <h3>Results for <span id="date_text"></span>:</h3>
+                    <h4>Actual Price: <strong><span id="actual_price"></span></strong></h4>
+                    <h5><span id="miss_desc"></span></h5>
+                    <h5>Why not try a different date?</h5>
+                </div>
+            </div>
+        </div>
+        <hr style="color:lightgray; border-width: 3px;display: none;" class="bar_hide">
+        <div class="row" id="range_results" style="display:none;">
+            <div class="col-sm-12 col-md-6">
+                <h4>Last 7 Days of Price, Market Cap, and Total Volume</h4>
+                <label class="col-form-label" for="plot_target">Plot Value: </label>
+                <select id="plot_target">
+                    <option selected="selected">Price</option>
+                    <option>Market Cap</option>
+                    <option>Total Volume</option>
+                </select>
+                <div id="plot"></div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <h4>Downloadable Data Powering the Plots</h4>
+                <table id="table" class="table table-striped table-bordered table-hover" style="width:100%;text-align: center;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Price</th>
+                            <th>Market Cap</th>
+                            <th>Total Volume</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <hr style="color:lightgray; border-width: 3px;" class="gifs">
+        <div class="row gifs">
+            <div class="col-12">
+                <h1>You found the secret gifs!</h1>
+            </div>
+        </div>
+        <div class="row gifs">
+            <div class="col-6">
+                <iframe src="https://giphy.com/embed/lc6ktWibqTxPq" width="100%" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+                <p><a href="https://giphy.com/gifs/sloth-banana-lc6ktWibqTxPq">via GIPHY</a></p>
+            </div>
+            <div class="col-6">
+                <iframe src=" https://giphy.com/embed/RZRG7eWed3Hws" width="100%" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+                <p><a href="https://giphy.com/gifs/RZRG7eWed3Hws">via GIPHY</a></p>
+            </div>
+        </div>
+        <div class="row gifs">
+            <div class="col-6">
+                <iframe src="https://giphy.com/embed/9wLKh6ms5t9qE" width="100%" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+                <p><a href="https://giphy.com/gifs/banana-9wLKh6ms5t9qE">via GIPHY</a></p>
+            </div>
+            <div class="col-6">
+                <iframe src="https://giphy.com/embed/ToMjGpKhcVkRSAxuHrG" width="100%" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+                <p><a href="https://giphy.com/gifs/firstandmonday-banana-ToMjGpKhcVkRSAxuHrG">via GIPHY</a></p>
+            </div>
+        </div>
+        <hr style="color:lightgray; border-width: 3px;">
+        <div class="row">
+            <div class="col-md-12 jumbotron text-center">
+                <h5>What the fork is BANANO?</h5>
+                <p>BANANO was forked in April 2018 from NANO. BANANO offers instant, feeless and rich in potassium 🍌 transactions, thanks to the fact that BANANO developers (several of them having being involved in NANO itself) have kept big portions of
+                    the original code unchanged to keep cross-chain compatibility between existing code libraries. However, they have fined-tuned some parameters, such as Proof of Work requirements and currency units. While the focus for now is on having
+                    an ongoing free and fair distribution, BANANO is also experimenting with feature additions such as a privacy layer (Camo BANANO), on-chain messaging (MonkeyTalks) and more. In context of distribution, we aim to use our meanwhile ready-to-strike
+                    infrastructure with easy-to-use mobile wallets (Kalium) and tipbots on several major social media platforms to onboard normies and crypto-noobs who have no idea yet what a cryptocurrency is. We also might do IRL airdrops at some point.
+                    Of note, key here is to make the start with crypto as easy as possible, use a fun attitude and gamification to get new users started without all the usual hassle, and then educate them to handle crypto in general in a responsible way.</p>
+                <a href="https://banano.cc/" target="_blank">Check out more about Banano and get a wallet address here!</a>
+            </div>
+        </div>
+        <footer>
+            <div>
+                <p>Data sourced from <a href="https://www.coingecko.com/" target="_blank">CoinGecko</a></p>
+                <img src="static/assets/coingecko_logo_with_dark_text.png" width="10%">
+            </div>
+        </footer>
+    </div>
+    <br>
+</body>
+
+</html>
