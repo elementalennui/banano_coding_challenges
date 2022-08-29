@@ -10,7 +10,8 @@
     <link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/ui-lightness/jquery-ui.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.bootstrap4.min.css">
-    <link rel="stylesheet" href="static/css/app.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/yeti/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="static/css/style.css"> -->
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -28,6 +29,25 @@
     <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
     <script src="static/js/app.js"></script>
+
+    <!-- For Codepen debugging -->
+    <style>
+        .jumbotron {
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+            margin-bottom: 20px !important;
+        }
+        
+        @media (min-width:700px) {
+            .gifs {
+                display: none;
+            }
+        }
+        
+        li {
+            display: inline;
+        }
+    </style>
 </head>
 
 <body>
@@ -175,6 +195,8 @@
                     <div>
                         <p>Data sourced from <a href="https://www.coingecko.com/" target="_blank">CoinGecko</a></p>
                         <img src="static/assets/coingecko_logo_with_dark_text.png" width="40%">
+                        <br>
+                        <br>
                     </div>
                 </div>
                 <div class="col-md-4"></div>

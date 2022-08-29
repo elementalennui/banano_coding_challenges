@@ -5,10 +5,7 @@ var total_volumes = [];
 var dates_fmt = [];
 
 //theme set
-var theme = "";
-if (window.name) {
-    theme = JSON.parse(window.name).theme;
-}
+var theme = "yeti";
 
 $(document).ready(function() {
     console.log("Page Loaded");
@@ -16,15 +13,44 @@ $(document).ready(function() {
     // set theme
     if (theme) {
         $('head').append('<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/' + theme + '/bootstrap.min.css">');
-        $('head').append('<link rel="stylesheet" href="static/css/app.css">');
+        $('head').append(`<style>
+        .jumbotron {
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+            margin-bottom: 20px !important;
+        }
+        
+        @media (min-width:700px) {
+            .gifs {
+                display: none;
+            }
+        }
+        
+        li {
+            display: inline;
+        }
+    </style>`);
         $('#themeSelect').val(theme);
     } else {
         //order matters in CSS load
         $('head').append('<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/' + $('#themeSelect').val() + '/bootstrap.min.css">');
-        $('head').append('<link rel="stylesheet" href="static/css/app.css">');
-        window.name = JSON.stringify({ //save to window, in case we move across pages
-            theme: $('#themeSelect').val()
-        });
+        $('head').append(`<style>
+        .jumbotron {
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+            margin-bottom: 20px !important;
+        }
+        
+        @media (min-width:700px) {
+            .gifs {
+                display: none;
+            }
+        }
+        
+        li {
+            display: inline;
+        }
+    </style>`);
     }
 
     // set datepicker
@@ -35,16 +61,30 @@ $(document).ready(function() {
     $('#themeSelect').change(function() {
         let styleSheets = $('head').find('link');
         styleSheets.each(function() {
-            if (($(this).attr('href').includes('bootswatch')) || ($(this).attr('href').includes('style.css')) || ($(this).attr('href').includes('teamHeader.css')) || ($(this).attr('href').includes('leaderboard.css'))) {
+            if ($(this).attr('href').includes('bootswatch')) {
                 $(this).remove();
             }
         });
+        $('head style').remove();
         // add new sheet
         $('head').append('<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/' + $('#themeSelect').val() + '/bootstrap.min.css">');
-        $('head').append('<link rel="stylesheet" href="static/css/app.css">');
-        window.name = JSON.stringify({ //save to window, in case we move across pages
-            theme: $('#themeSelect').val()
-        });
+        $('head').append(`<style>
+        .jumbotron {
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+            margin-bottom: 20px !important;
+        }
+        
+        @media (min-width:700px) {
+            .gifs {
+                display: none;
+            }
+        }
+        
+        li {
+            display: inline;
+        }
+    </style>`);
     });
 
     $("#btn_guess").on("click", function() {
