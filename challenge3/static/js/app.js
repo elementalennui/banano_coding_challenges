@@ -5,52 +5,18 @@ var total_volumes = [];
 var dates_fmt = [];
 
 //theme set
-var theme = "yeti";
+var theme = "lumen";
 
 $(document).ready(function() {
     console.log("Page Loaded");
 
     // set theme
     if (theme) {
-        $('head').append('<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/' + theme + '/bootstrap.min.css">');
-        $('head').append(`<style>
-        .jumbotron {
-            padding-top: 10px !important;
-            padding-bottom: 10px !important;
-            margin-bottom: 20px !important;
-        }
-        
-        @media (min-width:700px) {
-            .gifs {
-                display: none;
-            }
-        }
-        
-        li {
-            display: inline;
-        }
-    </style>`);
+        $('head link').last().after('<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/' + theme + '/bootstrap.min.css">');
         $('#themeSelect').val(theme);
     } else {
         //order matters in CSS load
-        $('head').append('<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/' + $('#themeSelect').val() + '/bootstrap.min.css">');
-        $('head').append(`<style>
-        .jumbotron {
-            padding-top: 10px !important;
-            padding-bottom: 10px !important;
-            margin-bottom: 20px !important;
-        }
-        
-        @media (min-width:700px) {
-            .gifs {
-                display: none;
-            }
-        }
-        
-        li {
-            display: inline;
-        }
-    </style>`);
+        $('head link').last().after('<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/' + $('#themeSelect').val() + '/bootstrap.min.css">');
     }
 
     // set datepicker
@@ -65,26 +31,9 @@ $(document).ready(function() {
                 $(this).remove();
             }
         });
-        $('head style').remove();
+
         // add new sheet
-        $('head').append('<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/' + $('#themeSelect').val() + '/bootstrap.min.css">');
-        $('head').append(`<style>
-        .jumbotron {
-            padding-top: 10px !important;
-            padding-bottom: 10px !important;
-            margin-bottom: 20px !important;
-        }
-        
-        @media (min-width:700px) {
-            .gifs {
-                display: none;
-            }
-        }
-        
-        li {
-            display: inline;
-        }
-    </style>`);
+        $('head link').last().after('<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/' + $('#themeSelect').val() + '/bootstrap.min.css">');
     });
 
     $("#btn_guess").on("click", function() {
@@ -94,6 +43,13 @@ $(document).ready(function() {
 
     $("#plot_target").on("change", function() {
         makePlot();
+    });
+
+    // window resize, remake plot
+    $(window).resize(function() {
+        if ($("#range_result").css('display') != 'none') {
+            makePlot();
+        }
     });
 });
 
@@ -262,6 +218,7 @@ function makeSingleDateRequest() {
             $("#actual_price").text(actual.toFixed(5));
             $("#miss_desc").text(miss_desc);
 
+            $(".bar_hide").show();
             $("#results").show();
         },
         error: function(textStatus, errorThrown) {
